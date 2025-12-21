@@ -1,6 +1,3 @@
-
-````md
-
 # Twitch → Slack Stream Notifier
 
 A lightweight Node.js worker that monitors Twitch for live streams of a specific game and sends Slack notifications when new streamers go live.
@@ -8,6 +5,12 @@ A lightweight Node.js worker that monitors Twitch for live streams of a specific
 We originally built and used this tool for our project **The Floor Above** to quickly jump into conversations with streamers as soon as they went live. This helped us build a strong streamer community and gain additional wishlists through real-time engagement.
 
 🔗 **Steam demo:** [The Floor Above Demo](https://store.steampowered.com/app/4031420/The_Floor_Above_Demo/)
+
+This tool is useful for:
+- indie game developers
+- marketing and community teams
+- tracking organic Twitch coverage in real time
+- quickly engaging with streamers when they start broadcasting your game
 
 ---
 
@@ -20,12 +23,14 @@ curl -X POST "https://id.twitch.tv/oauth2/token" \
   -d "client_id=YOUR_CLIENT_ID" \
   -d "client_secret=YOUR_CLIENT_SECRET" \
   -d "grant_type=client_credentials"
-````
+```
 
 ### 2. Find the game by name
 
+Replace `GAME_NAME` with your game title (URL-encoded).
+
 ```bash
-curl -X GET "https://api.twitch.tv/helix/games?name=The%20Floor%20Above" \
+curl -X GET "https://api.twitch.tv/helix/games?name=GAME_NAME" \
   -H "Client-ID: YOUR_CLIENT_ID" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
@@ -36,8 +41,8 @@ curl -X GET "https://api.twitch.tv/helix/games?name=The%20Floor%20Above" \
 {
   "data": [
     {
-      "id": "1395775061",
-      "name": "The Floor Above"
+      "id": "123456789",
+      "name": "Your Game Name"
     }
   ]
 }
@@ -58,7 +63,7 @@ node index.js
 ```text
 🚀 Starting Twitch → Slack notifier…
 ✅ Sent Slack startup message
-Checked Twitch: 0 live streams for The Floor Above.
+Checked Twitch: 0 live streams for the selected game.
 ```
 
 ---
@@ -68,14 +73,14 @@ Checked Twitch: 0 live streams for The Floor Above.
 ### Startup message
 
 ```text
-🚀 TFA Twitch notifier started
+🚀 Twitch notifier started
 Server is up and watching for streams.
 ```
 
 ### New stream detected
 
 ```text
-👻 A new The Floor Above stream just went live!
+🎮 A new stream just went live!
 Streamer: STREAMER_NAME
 Viewers: VIEWER_COUNT
 Title: STREAM_TITLE
@@ -98,8 +103,7 @@ worker: npm start
 
 1. Create a Heroku app
 2. Set environment variables in:
-
-   * **Settings → Reveal Config Vars**
+   - **Settings → Reveal Config Vars**
 3. Enable the **worker** dyno
 4. Disable the **web** dyno
 5. Deploy via Git or GitHub integration
@@ -108,20 +112,20 @@ worker: npm start
 
 ## Notes & Limitations
 
-* Live streamer state is stored **in memory**
-* Restarting the app may resend notifications for streams that are already live
-* Twitch API rate limits apply
-* Polling every **1–5 minutes** is generally safe
-* For persistence across restarts, use Redis or a database
+- Live streamer state is stored **in memory**
+- Restarting the app may resend notifications for streams that are already live
+- Twitch API rate limits apply
+- Polling every **1–5 minutes** is generally safe
+- For persistence across restarts, use Redis or a database
 
 ---
 
 ## Security Notes
 
-* ❌ Do not commit `.env`
-* ❌ Do not commit `node_modules`
-* ❌ Do not expose Slack webhooks or Twitch secrets
-* ✅ `package-lock.json` is safe and recommended
+- ❌ Do not commit `.env`
+- ❌ Do not commit `node_modules`
+- ❌ Do not expose Slack webhooks or Twitch secrets
+- ✅ `package-lock.json` is safe and recommended
 
 ---
 
@@ -145,13 +149,3 @@ Recommended files:
 ## License
 
 MIT (or your preferred license)
-
-```
-
----
-
-If you want, I can also:
-- tighten this for **Reddit markdown**
-- add a **Quick Start (5 minutes)** section
-- or add a **FAQ** (rate limits, duplicate alerts, restarts, etc.)
-```
