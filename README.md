@@ -1,12 +1,17 @@
 
 ````md
-## Getting the Twitch Game ID
+
+# Twitch → Slack Stream Notifier
 
 A lightweight Node.js worker that monitors Twitch for live streams of a specific game and sends Slack notifications when new streamers go live.
 
-We originally built and used this tool for our project The Floor Above to quickly jump into conversations with streamers as soon as they went live. This helped us build a strong streamer community and gain additional wishlists through real-time engagement.
+We originally built and used this tool for our project **The Floor Above** to quickly jump into conversations with streamers as soon as they went live. This helped us build a strong streamer community and gain additional wishlists through real-time engagement.
 
-🔗 Steam demo: The Floor Above Demo
+🔗 **Steam demo:** [The Floor Above Demo](https://store.steampowered.com/app/4031420/The_Floor_Above_Demo/)
+
+---
+
+## Getting the Twitch Game ID
 
 ### 1. Get an App Access Token
 
