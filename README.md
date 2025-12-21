@@ -1,1 +1,152 @@
-# swytapp-twitch-notifier
+
+````md
+## Getting the Twitch Game ID
+
+A lightweight Node.js worker that monitors Twitch for live streams of a specific game and sends Slack notifications when new streamers go live.
+
+We originally built and used this tool for our project The Floor Above to quickly jump into conversations with streamers as soon as they went live. This helped us build a strong streamer community and gain additional wishlists through real-time engagement.
+
+🔗 Steam demo: The Floor Above Demo
+
+### 1. Get an App Access Token
+
+```bash
+curl -X POST "https://id.twitch.tv/oauth2/token" \
+  -d "client_id=YOUR_CLIENT_ID" \
+  -d "client_secret=YOUR_CLIENT_SECRET" \
+  -d "grant_type=client_credentials"
+````
+
+### 2. Find the game by name
+
+```bash
+curl -X GET "https://api.twitch.tv/helix/games?name=The%20Floor%20Above" \
+  -H "Client-ID: YOUR_CLIENT_ID" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### Example response
+
+```json
+{
+  "data": [
+    {
+      "id": "1395775061",
+      "name": "The Floor Above"
+    }
+  ]
+}
+```
+
+Use the `id` value as `TWITCH_GAME_ID`.
+
+---
+
+## Running locally
+
+```bash
+node index.js
+```
+
+### Expected logs
+
+```text
+🚀 Starting Twitch → Slack notifier…
+✅ Sent Slack startup message
+Checked Twitch: 0 live streams for The Floor Above.
+```
+
+---
+
+## Slack message format
+
+### Startup message
+
+```text
+🚀 TFA Twitch notifier started
+Server is up and watching for streams.
+```
+
+### New stream detected
+
+```text
+👻 A new The Floor Above stream just went live!
+Streamer: STREAMER_NAME
+Viewers: VIEWER_COUNT
+Title: STREAM_TITLE
+Link: https://twitch.tv/STREAMER_LOGIN
+```
+
+---
+
+## Deployment (Heroku – recommended)
+
+This app is a **background worker**, not a web server.
+
+### Procfile
+
+```Procfile
+worker: npm start
+```
+
+### Heroku steps (high-level)
+
+1. Create a Heroku app
+2. Set environment variables in:
+
+   * **Settings → Reveal Config Vars**
+3. Enable the **worker** dyno
+4. Disable the **web** dyno
+5. Deploy via Git or GitHub integration
+
+---
+
+## Notes & Limitations
+
+* Live streamer state is stored **in memory**
+* Restarting the app may resend notifications for streams that are already live
+* Twitch API rate limits apply
+* Polling every **1–5 minutes** is generally safe
+* For persistence across restarts, use Redis or a database
+
+---
+
+## Security Notes
+
+* ❌ Do not commit `.env`
+* ❌ Do not commit `node_modules`
+* ❌ Do not expose Slack webhooks or Twitch secrets
+* ✅ `package-lock.json` is safe and recommended
+
+---
+
+## Repository Hygiene
+
+Recommended files:
+
+```text
+.
+├── index.js
+├── package.json
+├── package-lock.json
+├── Procfile
+├── README.md
+├── .env.example
+└── .gitignore
+```
+
+---
+
+## License
+
+MIT (or your preferred license)
+
+```
+
+---
+
+If you want, I can also:
+- tighten this for **Reddit markdown**
+- add a **Quick Start (5 minutes)** section
+- or add a **FAQ** (rate limits, duplicate alerts, restarts, etc.)
+```
