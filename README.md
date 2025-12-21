@@ -13,9 +13,8 @@ This tool is useful for:
 - tracking organic Twitch coverage in real time
 - quickly engaging with streamers when they start broadcasting your game
 
-**This tool was built quickly to solve a real problem we were facing, and we started using it almost immediately. We didn’t spend much time polishing or abstracting the code, so you may find some rough edges.
-
-Feel free to adapt, refactor, or improve it to fit your own needs — contributions and improvements are very welcome 🙂**
+❗❗❗This tool was built quickly to solve a real problem we were facing, and we started using it almost immediately. We didn’t spend much time polishing or abstracting the code, so you may find some rough edges.
+Feel free to adapt, refactor, or improve it to fit your own needs — contributions and improvements are very welcome 🙂 
 
 ---
 
