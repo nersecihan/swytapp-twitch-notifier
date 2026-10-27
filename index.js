@@ -20,7 +20,7 @@ let knownLiveStreamers = new Set();
 // --------------------------------------------
 async function notifySlackStartup() {
   const payload = {
-    text: "🚀 TFA Twitch notifier started\nServer is up and watching for streams.",
+    text: "🚀 CatchMeow Twitch notifier started\nServer is up and watching for streams.",
   };
 
   const res = await fetch(SLACK_WEBHOOK_URL, {
@@ -100,7 +100,7 @@ async function fetchStreamsByGame() {
 async function notifySlack(stream) {
   const payload = {
     text:
-      `👻 A new The Floor Above stream just went live!\n` +
+      `👻 A new Catch Meow If You Can stream just went live!\n` +
       `Streamer: ${stream.user_name}\n` +
       `Viewers: ${stream.viewer_count}\n` +
       `Title: ${stream.title}\n` +
@@ -123,7 +123,7 @@ async function notifySlack(stream) {
 // --------------------------------------------
 // 4) Main watcher logic
 // --------------------------------------------
-async function checkTFAStreams() {
+async function checkCatchMeowStreams() {
   try {
     const streams = await fetchStreamsByGame();
     const currentLive = new Set();
@@ -139,7 +139,7 @@ async function checkTFAStreams() {
     knownLiveStreamers = currentLive;
 
     console.log(
-      `Checked Twitch: ${streams.length} live streams for The Floor Above.`
+      `Checked Twitch: ${streams.length} live streams for Catch Meow If You Can.`
     );
   } catch (err) {
     console.error("Error during Twitch check:", err);
@@ -149,14 +149,14 @@ async function checkTFAStreams() {
 // --------------------------------------------
 // 5) Start server
 // --------------------------------------------
-console.log("🚀 Starting TFA Twitch → Slack notifier…");
+console.log("🚀 Starting CatchMeow Twitch → Slack notifier…");
 
 // SEND STARTUP MESSAGE
 notifySlackStartup();
 
 // Run initial check
-checkTFAStreams();
+checkCatchMeowStreams();
 
 // Schedule repeated checks
 const cronExpr = `*/${POLL_INTERVAL_MINUTES} * * * *`;
-cron.schedule(cronExpr, checkTFAStreams);
+cron.schedule(cronExpr, checkCatchMeowStreams);
